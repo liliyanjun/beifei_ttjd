@@ -1,0 +1,12 @@
+<div class="form-group">
+
+    <select ng-change="provinceChange()" class="form-control" style="min-width: 90px;display: inline-block"
+            ng-model="model[options.key].province"
+            ng-options="{name:i.province_name,id:i.province_id} as i.province_name for i in city_select_province">
+        <option value="">全国</option>
+    </select>
+    <select ng-if="model[options.key].province" class="form-control" style="min-width: 90px;display: inline-block"
+            ng-model="model[options.key].city" ng-options="{name:m.city_name,id:m.city_id} as m.city_name for m in city_select_city">
+                <option value="">--</option>
+    </select>
+</div>

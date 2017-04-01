@@ -1,0 +1,15 @@
+<div class="auto-page">
+    <div class="form-inline left">
+
+        <span ng-if="total_count">
+            &nbsp;&nbsp;每页显示:
+            <select class="form-control" ng-model="$parent.p_size" ng-change="page_size_change()"
+                ng-options="i.value as i.text for i in page_size_list"></select>
+        </span>
+
+    </div>
+
+    <uib-pagination ng-if="total_count" boundary-link-numbers="true" class="pull-right" ng-if="p_count>0" total-items="total_count"
+                    items-per-page="p_size" ng-model="$parent.p_index" max-size="10" force-ellipses="true"
+                    previous-text="&lsaquo;" next-text="&rsaquo;" ng-change="pageChanged()"></uib-pagination>
+</div>

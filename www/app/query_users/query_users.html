@@ -1,0 +1,49 @@
+<div class="app-container">
+    <form ng-submit="" class="formly-inline pull-right" style="line-height: 64px;">
+        <script>
+            //  2016.9.19修改背景色
+            $(".btnbox>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".btnbox>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+            })
+        </script>
+        <formly-form model="query.data" fields="query_config" style="margin-left: 10px;">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>
+    </form>
+    <div class="clearfix"></div>
+    <span ng-if="total_count">小计:{{total_count}}</span>
+    <span ng-if="!total_count">暂无内容</span>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+        	<th>注册编号</th>
+            <th style="text-align: center;">注册时间</th>
+            <th>用户名</th>
+            <th style="text-align: center;">建道号</th>
+            <th style="text-align: center;">手机号码</th>
+            <th style="text-align: center">号码归属地</th>
+            <th style="text-align: center;">终端型号</th>
+            <th>软件版本</th>
+            <th>所在组织</th>
+            <th style="text-align: center">详细信息</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data_list">
+        	<th>-</th>
+            <td style="text-align: center">{{item.create_time}}</td>
+            <td style="width: 200px;word-break: break-all">{{item.realname}}</td>
+            <td>-</td>
+            <td>{{item.tel}}</td>
+            <td style="text-align: center">{{item.tel_province}} {{item.tel_city}}</td>
+            <td style="text-align: center"></td>
+            <td>-</td>
+            <td>-</td>
+            <td style="text-align: center;"><a class="btn btn-link" ng-click="show_userinfo(item)">查看</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <auto-page></auto-page>
+</div>

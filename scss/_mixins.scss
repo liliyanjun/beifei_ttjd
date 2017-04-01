@@ -1,0 +1,31 @@
+@mixin m-left($m-left) {
+  margin-left: $m-left;
+}
+
+@mixin m-right($m-right) {
+  margin-right: $m-right;
+}
+
+@mixin m-top($m-top) {
+  margin-top: $m-top;
+}
+
+@mixin m-bottom($m-bottom) {
+  margin-bottom: $m-bottom;
+}
+
+@mixin p-left($p-left) {
+  padding-left: $p-left;
+}
+
+@mixin p-right($p-right) {
+  padding-right: $p-right;
+}
+
+@mixin p-top($p-top) {
+  padding-top: $p-top;
+}
+
+@mixin p-bottom($p-bottom) {
+  padding-bottom: $p-bottom;
+}

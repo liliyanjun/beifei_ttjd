@@ -1,0 +1,14 @@
+body {
+  background: #eaeaea;
+  margin: 0;
+  padding: 0;
+  background: none;
+}
+
+.app-container {
+  height: 100%;
+  background: #fff;
+  min-width: 1068px;
+  @extend .container-fluid;
+  overflow-y: auto;
+}

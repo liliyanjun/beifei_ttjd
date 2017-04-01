@@ -1,0 +1,38 @@
+<div class="app-container">
+    <br>
+    <div class="formly-inline">
+        <formly-form model="query.data" fields="query_config">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="run_query()">查询</button>
+        <button ng-click="query_type_btn(1)" class="btn btn-primary ">累计注册用户</button>
+        <button ng-click="query_type_btn(2)" class="btn btn-primary">新注册用户</button>
+        <button ng-click="query_type_btn(3)" class="btn btn-primary">日活跃注册用户</button>
+        <button ng-click="query_type_btn(4)" class="btn btn-primary">月活跃注册用户</button>
+        <button ng-click="query_type_btn(6)" class="btn btn-primary">启动次数</button>
+    </div>
+
+    <br>
+    <div class="chart-container">
+        <highchart ng-if="chartConfig" id="chart1" config="chartConfig"></highchart>
+    </div>
+    <div class="font-title">数据明细</div>
+    <br>
+    <table class="table table-bordered">
+        <tr>
+            <td></td>
+            <td>累计注册用户</td>
+            <td>新注册用户</td>
+            <td>日活跃注册用户</td>
+            <td>月活跃注册用户</td>
+            <td>启动次数</td>
+        </tr>
+        <tr ng-repeat="obj in table_result">
+            <td>{{obj.date}}</td>
+            <td>{{obj.total_user_num}}</td>
+            <td>{{obj.new_user_num}}</td>
+            <td>{{obj.day_start_num}}</td>
+            <td>{{obj.month_start_num}}</td>
+            <td>{{obj.start_num_num}}</td>
+        </tr>
+    </table>
+</div>

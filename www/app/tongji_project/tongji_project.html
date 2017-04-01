@@ -1,0 +1,53 @@
+<div class="app-container">
+    <br>
+    <div class="formly-inline">
+        <formly-form model="query.data" fields="query_config">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="run_query()">查询</button>
+        <button ng-click="query_type_btn(1)" class="btn btn-primary ">累计项目数</button>
+        <button ng-click="query_type_btn(2)" class="btn btn-primary">新创建项目数</button>
+        <button ng-click="query_type_btn(3)" class="btn btn-primary">生效订阅项目数</button>
+        <button ng-click="query_type_btn(4)" class="btn btn-primary">活跃项目数</button>
+        <button ng-click="query_type_btn(5)" class="btn btn-primary">订阅数</button>
+    </div>
+
+    <br>
+    <div class="chart-container">
+        <highchart ng-if="chartConfig" id="chart1" config="chartConfig"></highchart>
+
+    </div>
+    <!--<table style="background: white" ng-if="table_data" class="table table-bordered">-->
+        <!--<tr>-->
+            <!--<th></th>-->
+            <!--<th>日活项目数量</th>-->
+            <!--<th>当日项目数</th>-->
+            <!--<th>日活比（日活项目数/当日项目数）</th>-->
+        <!--</tr>-->
+        <!--<tr ng-repeat="obj in table_data">-->
+            <!--<td>{{obj.x}}</td>-->
+            <!--<td>{{obj.y1}}</td>-->
+            <!--<td>{{obj.y2}}</td>-->
+            <!--<td>{{obj.p|number:2}}%</td>-->
+        <!--</tr>-->
+    <!--</table>-->
+    <div class="font-title">数据明细</div>
+    <br>
+    <table class="table table-bordered">
+        <tr>
+            <td></td>
+            <td>累计项目数</td>
+            <td>新创建项目数</td>
+            <td>生效订阅项目数</td>
+            <td>活跃项目数</td>
+            <td>订阅数</td>
+        </tr>
+        <tr ng-repeat="obj in table_result">
+            <td>{{obj.date}}</td>
+            <td>{{obj.total_project_num}}</td>
+            <td>{{obj.new_project_num}}</td>
+            <td>{{obj.renzheng_project_num}}</td>
+            <td>{{obj.start_project_num}}</td>
+            <td>{{obj.renzheng_num}}</td>
+        </tr>
+    </table>
+</div>

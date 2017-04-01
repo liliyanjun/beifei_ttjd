@@ -1,0 +1,12 @@
+{
+  "name": "SUpplyChain",
+  "main": "index.html",
+  "version":"1.0.0",
+  "window": {
+        "toolbar": false,
+        "width": 1150,
+        "min_width": 1150,
+        "height": 800,
+        "min_height": 700
+    }
+}

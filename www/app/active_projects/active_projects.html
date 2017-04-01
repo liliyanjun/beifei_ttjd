@@ -1,0 +1,63 @@
+<div class="app-container">
+    <br>
+    <script>
+        // 2016.9.19
+        // 修改按钮颜色 guohongjun
+        $(".box_one>.btn").mousedown(function () {
+            index=$(this).index();
+            $(".box_one>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+        })
+    </script>
+	<formly-form model="query.data" fields="query_config" style="line-height: 64px;margin-left: 12px;"></formly-form>
+    <!--<button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>-->
+    <br />
+    <div class="clearfix"></div>
+    <br>
+    <span ng-if="data.length>0">小计:{{data.length}}</span>
+    <span ng-if="data.length<=0">暂无内容</span>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th style="text-align: center;">注册编码</th>
+            <th>首次订阅时间</th>
+            <th style="text-align: center;">项目名称</th>
+            <th>项目ID</th>
+            <th>项目地点</th>
+            <th style="text-align: center;">项目注册时间</th>
+            <th>团队成员</th>
+            <th style="text-align: center;">超级管理员</th>
+            <th>建道号</th>
+            <th>手机号码</th>
+            <th>邀请码</th>
+            <th>账户状态</th>
+            <th>订阅到期时间</th>
+            <th>操作日志</th>
+            <th>项目详情</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data">
+            <td style="text-align: center;">-</td>
+            <td>-</td>
+            <td style="width: 150px;word-break: break-all;">{{item.name}}</td>           
+            <td style="text-align: center;">{{item.id}}</td>
+            <td style="text-align: center;">{{item.address_name}}</td>
+            
+            <td style="text-align: center;">{{item.create_time}}</td>
+            <td ng-click="show_project_member(item)" style="color:blue;" >{{item.members_count}}</td>
+            <td>{{item.manager_name}}</td>
+            <td>-</td>
+            <td>{{item.manager_tel}}</td>
+            <td style="text-align: center;">-</td>
+            <td>-</td>
+            <td>{{item.use_end_date}}</td>
+            <td>
+                <button type="button" class="btn btn-success" ng-click="log_project(item)">日志</button>
+            </td>
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-success" ng-click="show_projectinfo(item)">查看</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

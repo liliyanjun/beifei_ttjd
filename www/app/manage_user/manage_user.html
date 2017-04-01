@@ -1,0 +1,120 @@
+<div class="app-container">
+    <br>
+    <div class="formly-inline">
+        <formly-form model="query.data" fields="query_config">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="query_btn()">查询</button>
+    </div>
+    <br>
+    <table style="background: white" ng-if="level_table" class="table table-bordered">
+        <tr>
+            <th>天／次</th>
+            <th>1-3</th>
+            <th>4-5</th>
+            <th>6-10</th>
+            <th>10以上</th>
+            <th>总量(启动人数)</th>
+        </tr>
+        <tr ng-repeat="obj in level_table">
+            <td>{{obj.date}}</td>
+            <td>{{obj.count1}}</td>
+            <td>{{obj.count2}}</td>
+            <td>{{obj.count3}}</td>
+            <td>{{obj.count4}}</td>
+            <td>{{obj.total}}</td>
+        </tr>
+    </table>
+
+    <table style="background: white" ng-if="time_table" class="table table-bordered">
+        <tr>
+            <td>天／时段</td>
+            <td>00:00-08:00</td>
+            <td>08:00-12:00</td>
+            <td>12:00-18:00</td>
+            <td>18:00-24:00</td>
+            <td>总量</td>
+        </tr>
+        <tr ng-repeat="obj in time_table">
+            <td>{{obj.date}}</td>
+            <td>{{obj.count1}}</td>
+            <td>{{obj.count2}}</td>
+            <td>{{obj.count3}}</td>
+            <td>{{obj.count4}}</td>
+            <td>{{obj.total}}</td>
+        </tr>
+    </table>
+    <div ng-if="app_create_table">新建:</div>
+    <table style="background: white" ng-if="app_create_table" class="table table-bordered">
+        <tr>
+            <td>天／功能</td>
+            <td>施工动态</td>
+            <td>日志</td>
+            <td>施工图纸</td>
+            <td>资料室</td>
+            <td>检查</td>
+            <td>验收</td>
+            <td>公告</td>
+            <td>信息栏</td>
+            <td>任务</td>
+            <td>签到</td>
+            <td>审批</td>
+            <td>报告</td>
+            <td>建道笔记</td>
+            <td>push</td>
+        </tr>
+        <tr ng-repeat="obj in app_create_table">
+            <td>{{obj.date}}</td>
+            <td>{{obj.dongtai}}</td>
+            <td>{{obj.shi_gong_ri_zhi}}</td>
+            <td>{{obj.kuai_su_yue_tu}}</td>
+            <td>{{obj.zi_liao_shi}}</td>
+            <td>{{obj.gong_cheng_jian_cha}}</td>
+            <td>{{obj.shi_gong_yan_shou}}</td>
+            <td>{{obj.xiang_mu_gong_gao}}</td>
+            <td>{{obj.work_point}}</td>
+            <td>{{obj.gong_zuo_ren_wu}}</td>
+            <td>{{obj.sign}}</td>
+            <td>{{obj.gong_zuo_shen_pi}}</td>
+            <td>{{obj.gong_zuo_bao_gao}}</td>
+            <td>{{obj.memo}}</td>
+            <td>{{obj.push}}</td>
+        </tr>
+    </table>
+    <div ng-if="app_query_table">查阅:</div>
+    <table style="background: white" ng-if="app_query_table" class="table table-bordered">
+        <tr>
+            <td>天／功能</td>
+            <td>施工动态</td>
+            <td>日志</td>
+            <td>施工图纸</td>
+            <td>资料室</td>
+            <td>检查</td>
+            <td>验收</td>
+            <td>公告</td>
+            <td>信息栏</td>
+            <td>任务</td>
+            <td>签到</td>
+            <td>审批</td>
+            <td>报告</td>
+            <td>建道笔记</td>
+            <td>push</td>
+        </tr>
+        <tr ng-repeat="obj in app_query_table">
+            <td>{{obj.date}}</td>
+            <td>{{obj.dongtai}}</td>
+            <td>{{obj.shi_gong_ri_zhi}}</td>
+            <td>{{obj.kuai_su_yue_tu}}</td>
+            <td>{{obj.zi_liao_shi}}</td>
+            <td>{{obj.gong_cheng_jian_cha}}</td>
+            <td>{{obj.shi_gong_yan_shou}}</td>
+            <td>{{obj.xiang_mu_gong_gao}}</td>
+            <td>{{obj.work_point}}</td>
+            <td>{{obj.gong_zuo_ren_wu}}</td>
+            <td>{{obj.sign}}</td>
+            <td>{{obj.gong_zuo_shen_pi}}</td>
+            <td>{{obj.gong_zuo_bao_gao}}</td>
+            <td>{{obj.memo}}</td>
+            <td>{{obj.push}}</td>
+        </tr>
+    </table>
+</div>

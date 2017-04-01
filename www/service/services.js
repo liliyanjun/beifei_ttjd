@@ -1,0 +1,761 @@
+var service_app = angular.module('desktop.services', ['ngCookies'])
+    .factory("showMessage", function ($q, $uibModal, $rootScope) {
+        /**
+         * 消息框
+         */
+        return function (title, message) {
+            var defered = $q.defer();
+            var scope = $rootScope.$new();
+            scope.title = title;
+            scope.message = message;
+
+            var modal = $uibModal.open({
+                templateUrl: "modal/message.html",
+                scope: scope,
+                animation: true
+            });
+            scope.ok = function () {
+                modal.close(true);
+            };
+            modal.result.then(function () {
+                scope.$destroy();
+                defered.resolve();
+            }, function () {
+                scope.$destroy();
+                defered.resolve();
+            });
+            return defered.promise;
+        }
+    })
+    .factory("showConfirm", function ($q, $uibModal, $rootScope) {
+        return function (title, message, ok_title, cancel_title) {
+            var defered = $q.defer();
+            var scope = $rootScope.$new();
+            scope.title = title;
+            scope.message = message;
+            scope.ok_title = ok_title;
+            scope.cancel_title = cancel_title;
+
+            var modal = $uibModal.open({
+                templateUrl: "modal/confirm.html",
+                scope: scope,
+                animation: true,
+                backdrop: "static"
+            });
+            scope.ok = function () {
+                modal.close(true);
+            };
+            scope.cancel = function () {
+                modal.dismiss(true);
+            };
+            modal.result.then(function () {
+                scope.$destroy();
+                defered.resolve();
+            }, function () {
+                scope.$destroy();
+                defered.reject();
+            });
+            return defered.promise;
+        }
+    })
+    /**
+     * 处理接口状态码
+     by: 范俊伟 at:2016-02-18
+     */
+    .factory("globalStateCheck", function ($state, $injector, $location) {
+        return function globalStateCheck(data) {
+            /**
+             * 全局错误状态码检测,返回true则继续进行其他处理
+             * by:范俊伟 at:2015-01-21
+             * 显示成功信息
+             by: 范俊伟 at:2015-04-23
+             不显示成功信息
+             by: 范俊伟 at:2015-06-12
+             */
+            if (data.status_code == 1) {
+                $location.replace().path("/");
+                return false;
+            }
+            return true;
+
+        }
+    })
+    /**
+     * toast提示显示
+     by: 范俊伟 at:2016-02-18
+     */
+    .factory("showToast", function () {
+        return function (message, type, options) {
+            /**
+             * toast
+             * by:范俊伟 at:2015-01-22
+             */
+            if (!type)
+                type = 'danger';
+            $.simplyToast(message, type, options);
+
+        }
+    })
+    /**
+     * 显示错误信息
+     by: 范俊伟 at:2016-02-18
+     */
+    .factory("showErrorMessage", function (showMessage, showToast) {
+        return function (data) {
+            /**
+             * 通用错误信息显示
+             * by:范俊伟 at:2015-01-22
+             * 判断在有message的情况下再提示错误信息
+             by: 范俊伟 at:2015-03-08
+             修改meessageBox调用
+             by: 范俊伟 at:2015-06-12
+             */
+            if (!data.success) {
+                if (data.message) {
+                    if (data.dialog == 0) {
+                        showToast(data.message);
+                    }
+                    else {
+                        showMessage('错误', data.message);
+                    }
+                }
+            }
+        }
+    })
+    /**
+     * 通用网路请求
+     by: 范俊伟 at:2016-02-18
+     */
+    .factory("httpReq", function ($http, $q, globalStateCheck, showErrorMessage, $injector, showToast, $timeout) {
+        var localStorage = $injector.get('localStorage');
+        var loading = $injector.get('loading');
+        var parseURL = $injector.get('parseURL');
+        var result_map = {};
+        var last_cache_key;
+        return function (url, data, option) {
+            /**
+             * 通用http请求函数
+             by: 范俊伟 at:2015-03-10
+             */
+            var cache_key;
+            if (!option) {
+                option = {};
+            }
+            var method = option.method;
+            var no_error = option.no_error;
+            var cache = option.cache;
+            var wait = option.wait;
+            if (method === undefined) {
+                method = 'POST';
+            }
+            var deferred = $q.defer();
+            url = base_config.base_url + url;
+            var parmss = {
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                url: url,
+                method: method
+            };
+            if (!data) {
+                data = {};
+            }
+            var sessionid = localStorage.get("sessionid");
+            var urlp = parseURL(window.location.href);
+            var local_host = urlp.host + ":" + urlp.port;
+            urlp = parseURL(url);
+            var req_host = urlp.host + ":" + urlp.port;
+            if (sessionid && local_host != req_host) {
+                parmss.headers['sessionid'] = sessionid;
+            }
+            if (data) {
+                parmss['data'] = $.param(data);
+            }
+            if (cache || wait) {
+                cache_key = md5(url + JSON.stringify(data));
+            }
+            if (cache) {
+                if (result_map[cache_key]) {
+                    deferred.resolve(result_map[cache_key]);
+                }
+            }
+            if (wait) {
+                if (last_cache_key == cache_key) {
+                    deferred.reject();
+                    return;
+                }
+                last_cache_key = cache_key;
+                loading.show();
+            }
+            $http(parmss).success(
+                function (data, status, headers, config) {
+
+                    if (globalStateCheck(data)) {
+                        if (data.success) {
+                            if (cache) {
+                                result_map[cache_key] = data;
+                            }
+                            deferred.resolve(data);
+                        }
+                        else {
+                            if (!no_error) {
+                                $timeout(function () {
+                                    showErrorMessage(data);
+                                });
+                            }
+                            deferred.reject(null, data);
+                        }
+                    }
+                    else {
+                        deferred.reject(null, data);
+                    }
+                }
+            ).error(function (data, status, headers, config) {
+                showToast('网络异常');
+                deferred.reject(null, data);
+            });
+            var promise = deferred.promise;
+            if (wait) {
+                loading.hide();
+            }
+            return promise;
+        }
+    })
+    .factory('myUserInfo', function ($q, httpReq, $injector, $rootScope) {
+
+        var user_info = {};
+
+        $rootScope.$on("userinfo_change", function () {
+            getUserInfo(true);
+        });
+
+        function getUserInfo(is_mast) {
+            var deferred = $q.defer();
+            if (!is_mast) {
+                if (user_info.id) {
+                    deferred.resolve(user_info);
+                }
+            }
+
+            httpReq("/desktop/user/my_userinfo").then(function (data) {
+                angular.extend(user_info, data.result);
+                deferred.resolve(user_info);
+            }, function () {
+                deferred.reject();
+            });
+            return deferred.promise;
+        }
+
+        return {
+
+            getUserInfo: function (is_must) {
+                return getUserInfo(is_must);
+            },
+            getRealname: function () {
+                if (user_info) {
+                    return user_info.realname;
+                }
+                else {
+                    return null;
+                }
+            },
+            getUid: function () {
+                if (user_info) {
+                    return user_info.id;
+                }
+                else {
+                    return null;
+                }
+            }
+        };
+    })
+    .factory("runFuncArray", function ($q) {
+
+        return function (func_array) {
+            var deferred = $q.defer();
+            deferred.resolve();
+            var promise = deferred.promise;
+            for (var i = 0; i < func_array.length; i++) {
+                promise = promise.then(func_array[i]);
+            }
+            return promise;
+        }
+    })
+    .factory("SubStrLen", function () {
+        /**
+         * 截取字符串
+         * by: 魏璐 at:2016-01-19
+         */
+        return function (str, len, isellipsis) {
+            var ellipsis = '……';
+            if (isellipsis == 1) {
+                ellipsis = '';
+            }
+            if (!str) {
+                return "";
+            }
+            if (str.length > len) {
+                return str.substr(0, len) + ellipsis;
+            } else {
+                return str;
+            }
+        }
+    })
+    .factory("Getuuid", function () {
+        /**
+         * 获取随机串
+         * by: 魏璐 at:2016-01-19
+         */
+        return function () {
+            var s = [];
+            var hexDigits = "0123456789abcdef";
+            for (var i = 0; i < 36; i++) {
+                s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+            }
+            s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+            s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+            s[8] = s[13] = s[18] = s[23] = "_";
+
+            var uuid = s.join("");
+            return uuid;
+        }
+    })
+    .factory('UserInfo', function ($q, $injector) {
+
+        var icon_default = $injector.get('icon_default');
+
+        function getUserInfoById(id) {
+            var defered = $q.defer();
+            httpReq("/desktop/project/get_userinfo", {user_id: id}).then(function (data) {
+                data.result.icon_url = icon_default(data.result.icon_url, data.result.id, data.result.realname);
+                defered.resolve(data.result);
+            }, function (error) {
+                defered.reject(error);
+            });
+            return defered.promise;
+        }
+
+        return {
+            getUserInfoById: function (id) {
+                return getUserInfoById(id);
+            }
+        }
+    })
+    .factory('safeApply', function ($rootScope) {
+        return function ($scope, fn) {
+            var phase = $scope.$root.$$phase;
+            if (phase == '$apply' || phase == '$digest') {
+                if (fn) {
+                    $scope.$eval(fn);
+                }
+            } else {
+                if (fn) {
+                    $scope.$apply(fn);
+                } else {
+                    $scope.$apply();
+                }
+            }
+        }
+    })
+    .factory("parseURL", function () {
+        return function (url) {
+            var a = document.createElement('a');
+            a.href = url;
+            return {
+                source: url,
+                protocol: a.protocol.replace(':', ''),
+                host: a.hostname,
+                port: a.port,
+                query: a.search,
+                params: (function () {
+                    var ret = {},
+                        seg = a.search.replace(/^\?/, '').split('&'),
+                        len = seg.length, i = 0, s;
+                    for (; i < len; i++) {
+                        if (!seg[i]) {
+                            continue;
+                        }
+                        s = seg[i].split('=');
+                        ret[s[0]] = s[1];
+                    }
+                    return ret;
+                })(),
+                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                hash: a.hash.replace('#', ''),
+                path: a.pathname.replace(/^([^\/])/, '/$1'),
+                relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                segments: a.pathname.replace(/^\//, '').split('/')
+            };
+        }
+    })
+    .factory('localStorage', function () {
+        var localStorage = window.localStorage;
+        return {
+            get: function (key) {
+                return localStorage.getItem(key) || "";
+            },
+            set: function (key, value) {
+                return localStorage.setItem(key, value);
+            },
+            remove: function (key) {
+                localStorage.removeItem(key);
+            }
+        }
+    })
+    .factory('auth', function (httpReq, localStorage, $q, $injector, $location, $rootScope) {
+
+
+        var myUserInfo = $injector.get("myUserInfo");
+        var showConfirm = $injector.get("showConfirm");
+
+
+        function logout() {
+            var deferred = $q.defer();
+            httpReq("/sys/logout").then(function (data) {
+                $rootScope.my_user_info = null;
+                $location.replace().path("/login");
+                deferred.resolve();
+            }, function () {
+                deferred.reject();
+            });
+            return deferred.promise;
+        }
+
+        return {
+            login: function (username, password) {
+                var deferred = $q.defer();
+                httpReq("/nm2/user/login", {
+                    "username": username,
+                    "password": password
+                }).then(function (data) {
+                    //console.log("auth login end");
+                    localStorage.set("sessionid", data.result.sessionid);
+                    myUserInfo.getUserInfo().then(function (user_info) {
+                        deferred.resolve();
+                    });
+
+                }, function () {
+                    deferred.reject();
+                });
+                return deferred.promise;
+            },
+            logout: logout,
+            hasLogin: function () {
+                var deferred = $q.defer();
+                httpReq("/desktop/user/check_login").then(function (data) {
+                    localStorage.set("sessionid", data.result.sessionid);
+                    deferred.resolve(data.result.has_login);
+                }, function (err) {
+                    deferred.reject(err);
+                });
+                return deferred.promise;
+            },
+            reg_user: function (reg_info) {
+                var deferred = $q.defer();
+                console.log("auth reg");
+                httpReq("/sys/reg_user", reg_info).then(function (data) {
+                    console.log("auth reg end");
+                    localStorage.set("sessionid", data.result.sessionid);
+                    deferred.resolve();
+                }, function () {
+                    deferred.reject();
+                });
+                return deferred.promise;
+            }
+
+        }
+    })
+    .factory("loading", function ($templateRequest, $document) {
+        var loading_content = null;
+        var body = $document.find("body");
+        var show_count = 0;
+        var timer = null;
+
+        function show() {
+            if (timer) {
+                clearTimeout(timer);
+                timer = null;
+            }
+            if (show_count == 0) {
+                $templateRequest("cover/mask.html").then(function (tplContent) {
+                    loading_content = $(tplContent);
+                    body.addClass("body-on-mask");
+                    body.append(loading_content);
+
+                });
+            }
+            show_count++;
+
+        }
+
+        return {
+            show: show,
+            delayShow: function (delay) {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                delay = delay || 1000;
+                timer = setTimeout(function () {
+                    show();
+                }, delay);
+
+            },
+            hide: function () {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                if (show_count > 0) {
+                    show_count--;
+                }
+                if (show_count == 0 && loading_content) {
+                    body.removeClass("body-on-mask");
+                    loading_content.remove();
+                    loading_content = null;
+                }
+            },
+            forceHide: function () {
+                if (timer) {
+                    clearTimeout(timer);
+                    timer = null;
+                }
+                show_count = 0;
+                if (loading_content) {
+                    body.removeClass("body-on-mask");
+                    loading_content.remove();
+                    loading_content = null;
+                }
+            }
+        }
+    })
+    .provider("modalBox", function () {
+        /**
+         * 右侧弹出框
+         */
+        var self = this;
+        self.dial_map = {};
+        self.set = function (name, config) {
+            self.dial_map[name] = config;
+            return self;
+        };
+        this.$get = function ($q, $uibModal) {
+
+            var self = this;
+            var unique_group_map = {};
+
+            function add_group_modal(gropu_name, modal) {
+                var group = unique_group_map[gropu_name] || [];
+                var find = _(group).find(function (item) {
+                    return item === modal;
+                });
+                if (!find) {
+                    group.push(modal);
+                }
+                unique_group_map[gropu_name] = group;
+            }
+
+            function remove_group_modal(gropu_name, modal) {
+                var group = unique_group_map[gropu_name] || [];
+                group = _(group).filter(function (item) {
+                    return item !== modal;
+                });
+                unique_group_map[gropu_name] = group;
+            }
+
+            function get_group_modal(group_name) {
+                return unique_group_map[group_name] || [];
+            }
+
+            function show(name, args) {
+                var config = self.dial_map[name];
+                if (!config) {
+                    console.error('cant find the config of' + name);
+                    return null;
+                }
+                //resolve
+                var defered = $q.defer();
+                config['resolve'] = config['resolve'] || {};
+                config['resolve']['args'] = function () {
+                    return args || {};
+                };
+                if (config.type == 'rightBox') {
+                    config['windowTemplateUrl'] = config['windowTemplateUrl'] || "modal/right_box.html";
+                    config['backdropClass'] = config['backdropClass'] || "right-box-modal-backdrop";
+                    config['unique_group'] = config['unique_group'] || 'rightBox';
+                }
+                var unique_group = config['unique_group'];
+                var modal = $uibModal.open(config);
+                if (unique_group) {
+                    var group_modals = get_group_modal(unique_group);
+                    _(group_modals).each(function (item) {
+                        item.dismiss("auto_close");
+                    });
+                    add_group_modal(unique_group, modal);
+                }
+                modal.result.then(function (result) {
+                    remove_group_modal(unique_group, modal);
+                    defered.resolve(result);
+                }, function (reason) {
+                    remove_group_modal(unique_group, modal);
+
+                    defered.reject(reason);
+                });
+                return defered.promise;
+            }
+
+            // function close(result) {
+            //     var $uibModalInstance = $injector.get('$uibModalInstance');
+            //     $uibModalInstance.close(result);
+            // }
+            //
+            // function dismiss(reason) {
+            //     var $uibModalInstance = $injector.get('$uibModalInstance');
+            //     $uibModalInstance.dismiss(reason);
+            // }
+
+            return {
+                show: show
+            }
+        }
+
+    })
+    .factory('getFileTypeIcon', function () {
+        return function (filename) {
+            var filetype = "unknown";
+            if (filename) {
+                filename = filename.replace(/\?.*$/, '');
+                var index = filename.lastIndexOf(".");
+                if (index !== -1) {
+                    filetype = filename.substring(index, filename.length);
+                }
+            }
+            filetype = filetype.toLowerCase().replace(/\./, '');
+            var known_file_type = ['doc', 'docx', 'pdf', 'ppt', 'pptx', 'xls', 'xlsx'];
+            var find = _(known_file_type).find(function (item) {
+                return item === filetype;
+            });
+            if (!find) {
+                filetype = "file";
+            }
+            return "images/file_icon/" + filetype + ".png";
+        }
+    })
+    .factory("format_datetime", function () {
+        return function (str) {
+            /**
+             * 格式化列表时间
+             */
+            if (!str || str == "") {
+                return "";
+            }
+            var datetime = moment(str);
+            var now = moment();
+            if (now < datetime) {
+                return datetime.format('HH:mm');
+            }
+            if (datetime.year() != now.year()) {
+                return datetime.format('YYYY-MM-DD');
+            }
+            else if (datetime.dayOfYear() - now.dayOfYear() > 2) {
+                return datetime.format('MM-DD HH:mm');
+            }
+            else if (datetime.dayOfYear() - now.dayOfYear() == 2) {
+                return datetime.format('前天 HH:mm');
+            }
+            else if (datetime.dayOfYear() - now.dayOfYear() == 1) {
+                return datetime.format('昨天 HH:mm');
+            }
+            else if (datetime.dayOfYear() - now.dayOfYear() == 0) {
+                return datetime.format('HH:mm');
+            }
+            return datetime.format('MM-DD HH:mm');
+        }
+    })
+    .factory('update_array', function () {
+        return function (array1, array2, func) {
+
+            _(array1).each(function (array1_item) {
+                var find_item = _(array2).find(function (array2_item) {
+                    return func(array1_item, array2_item);
+                });
+                angular.extend(array1_item, find_item);
+            });
+            _(array2).each(function (array2_item) {
+                var find_item = _(array1).find(function (array1_item) {
+                    return func(array1_item, array2_item);
+                });
+                if (!find_item) {
+                    array1.push(array2_item);
+                }
+            });
+        }
+    })
+    /**
+     * 转化城市数据
+     by: 范俊伟 at:2016-02-18
+     */
+    .factory("formatCityByID", function () {
+        return function (id) {
+            var city_list = city_data.city_list;
+            for (var i = 0; i < city_list.length; i++) {
+                var city = city_list[i];
+                if (city.city_id == id) {
+                    return city.province_name + ' ' + city.city_name;
+                }
+            }
+            return '';
+        }
+    })
+    .factory("makeChartConfigForXY", function () {
+        return function (title, data) {
+            var x = [];
+            var y = [];
+            _(data).each(function (item) {
+                x.push(item.x);
+                y.push(item.y);
+            });
+            var chartConfig = {
+                chart: {
+                    type: 'bar'
+                },
+                series: [
+                    {
+                        name: title,
+                        data: y
+                    }
+                ],
+                title: {
+                    text: ''
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: ''
+                    }
+                },
+                xAxis: {
+                    categories: x
+
+                }
+
+            };
+            //console.log(chartConfig);
+            return chartConfig;
+        }
+    })
+    // creat by 2016 12 13 
+/*    .factory('version', function($rootScope,  $cookies){
+	    return {
+	        request: function(config){
+	            config.headers = config.headers || {};
+	            if($cookies.get('version')){
+	                config.headers.authorization = 'Bearer ' + $cookies.get('version');
+	            }
+	            return config;
+	        },
+	        responseError: function(response){
+	        	response.version = "2.0";
+	        }
+	    };
+	})
+*/

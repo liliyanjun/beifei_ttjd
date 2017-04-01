@@ -1,0 +1,17 @@
+<div class="ui-select-group">
+    <ui-select ng-if="!options.templateOptions.readonly" ng-model="model[options.key]">
+        <ui-select-match allow-clear="{{!options.templateOptions.required}}" placeholder="{{options.templateOptions.placeholder}}">
+            <span ng-bind="$select.selected.name"></span>
+        </ui-select-match>
+        <ui-select-choices
+                refresh="options.templateOptions.refresh($select.search,options.templateOptions)" refresh-delay="0"
+                repeat="item.id as item in options.templateOptions.options">
+            <span ng-bind="item.name"></span>
+        </ui-select-choices>
+    </ui-select>
+    <input ng-if="options.templateOptions.readonly" class="form-control" ng-value="getTextValue(model[options.key])"
+           readonly>
+    <button ng-if="options.templateOptions.addButtonClick"
+            ng-click="options.templateOptions.addButtonClick(options.templateOptions.options)"
+            type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-plus"></i></button>
+</div>

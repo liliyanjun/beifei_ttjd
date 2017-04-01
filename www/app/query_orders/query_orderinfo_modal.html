@@ -1,0 +1,25 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()"><span
+            aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">发票信息</h3>
+</div>
+<div class="modal-body">
+    <!-- <div class="row">
+        <div class="col-xs-6">类型:个人{{orderinfo.name}}</div>
+    </div> -->
+    <div class="row">
+        <div class="col-xs-12">抬头:{{orderinfo.invoice_title}}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">姓名:{{orderinfo.invoice_person}}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">电话:{{orderinfo.invoice_tel}}</div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">地址:{{orderinfo.invoice_address}}</div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="close()">确定</button>
+</div>

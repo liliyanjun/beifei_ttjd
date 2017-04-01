@@ -1,0 +1,59 @@
+<div class="app-container">
+    <br>
+    <form ng-submit="" class="formly-inline pull-right" style="line-height: 64px;">
+        <script>
+            //  2016.9.19修改背景色
+            $(".btnbox>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".btnbox>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+            })
+        </script>
+
+        <formly-form model="query.data" fields="query_config" style="margin-left: 10px;">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>
+
+    </form>
+    <div class="clearfix"></div>
+    <br>
+
+    <span>统计方式： 上传信息/浏览数/评论数</span>
+    <!--<span ng-if="!total_count">暂无内容</span>-->
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+        	<th>日期</th>
+            <th style="text-align: center;">考勤</th>
+            <th>公告</th>
+            <th style="text-align: center;">任务</th>
+            <th style="text-align: center;">审批</th>
+            <th style="text-align: center">报告</th>
+            <th style="text-align: center;">文件</th>
+            <th>施工图纸</th>
+            <th>施工交底</th>
+            <th>施工动态</th>
+            <th style="text-align: center">产值填报</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data_list">
+        	<th>-</th>
+            <td style="text-align: center">{{item.create_time}}</td>
+            <td style="width: 200px;word-break: break-all">{{item.realname}}</td>
+            <!--<td style="text-align: center;">{{item.id}}{{item.uid}}{{item.uid2}}</td><-->
+            <td>-</td>
+            <td>-</td>
+            <td style="text-align: center">{{item.tel}}</td>
+            <td style="text-align: center">{{item.tel_province}} {{item.tel_city}}</td>
+            <!--<td style="text-align: center">{{item.sex?'男':'女'}}</td><-->
+            <td>-</td>
+            <td>-</td>
+            <!--<td>{{item.birthday}}</td>-->
+            <!--<td>{{item.address_name}}</td>-->
+            <td style="text-align: center;"><a class="btn btn-link" ng-click="show_userinfo(item)">查看</a></td>
+
+        </tr>
+        </tbody>
+    </table>
+    <auto-page></auto-page>
+</div>

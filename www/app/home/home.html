@@ -1,0 +1,138 @@
+<div class="container">
+    <br>
+    <br>
+    <div class="font-title">注册概况</div>
+    <br>
+    <table class="table table-bordered text-center">
+        <tr>
+            <td></td>
+            <td style="text-align: center;">新增注册用户</td>
+            <td style="text-align: center;">累计注册用户</td>
+            <td style="text-align: center;">新增未激活用户</td>
+            <td style="text-align: center;">累计未激活用户</td>
+            <td style="text-align: center;">累计用户</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">今日<br />
+            {{'('+' '+data.reg_today_time}} {{reg_today_week+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{data.reg_today_new_reg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_today_all_reg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_today_new_noreg_user_count}}</td>           
+            <td style="text-align: center;">{{data.reg_today_all_noreg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_today_all_user_count}}</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">昨日<br />
+            {{'('+' '+data.reg_yesterday_time}} {{reg_yesterday_week+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{data.reg_yesterday_new_reg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_yesterday_all_reg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_yesterday_new_noreg_user_count}}</td>           
+            <td style="text-align: center;">{{data.reg_yesterday_all_noreg_user_count}}</td>
+            <td style="text-align: center;">{{data.reg_yesterday_all_user_count}}</td>
+        </tr>
+    </table>
+    <br>
+    <br>
+    
+    
+    <div class="font-title">活跃概况</div>
+    <br>
+    <table class="table table-bordered text-center">
+        <tr>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">活跃用户</td>
+            <td style="text-align: center;">活跃率</td>
+            <td style="text-align: center;">启动次数</td>
+            <td style="text-align: center;">人均启动次数</td>
+            <td style="text-align: center;">使用时长</td>
+            <td style="text-align: center;">人均使用时长</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">昨日<br />
+            {{'('+' '+data.active_yesterday_time}} {{active_yesterday_week+' '+')'}}
+            </td>
+            <td style="text-align: center;">
+            	{{data.active_yesterday_active_user_count}}
+            </td>
+            <td style="text-align: center;">{{data.active_yesterday_active_user_count/data.active_yesterday_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">{{data.active_yesterday_all_start_count}}</td>
+            <td style="text-align: center;">{{data.active_yesterday_all_start_count/data.active_yesterday_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+        </tr>
+        <tr id="monitor" style="text-align: center;">
+            <td style="text-align: center;">上周<br />
+            	{{'('+' '+data.active_week_time1}}-{{data.active_week_time2+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{data.active_week_active_user_count}}</td>
+            <td style="text-align: center;">{{data.active_week_active_user_count/data.active_week_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">{{data.active_week_all_start_count}}</td>
+            <td style="text-align: center;">{{data.active_week_all_start_count/data.active_week_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">上月
+            <br />
+            	{{'('+' '+data.active_month_time2}}-{{data.active_month_time1+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{data.active_month_active_user_count}}</td>
+            <td style="text-align: center;">{{data.active_month_active_user_count/data.active_month_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">{{data.active_month_all_start_count}}</td>
+            <td style="text-align: center;">{{data.active_month_all_start_count/data.active_month_all_user_count*100|number:2}}%</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+        </tr>
+    </table>
+    
+    <div class="font-title">活跃用户地区排行</div>
+    <br>
+    <table class="table table-bordered text-center">
+        <tr>
+            <td style="text-align: center;"></td>
+            <td style="text-align: center;">第一名</td>
+            <td style="text-align: center;">第二名</td>
+            <td style="text-align: center;">第三名</td>
+            <td style="text-align: center;">第四名</td>
+            <td style="text-align: center;">第五名</td>
+            <td style="text-align: center;">第六名</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">昨日<br />
+            	{{'('+' '+data.area_yesterday_time}} {{data.area_yesterday_week+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{h_city}}/{{all_city_active_user}}</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+        </tr>
+        <tr id="monitor2" style="text-align: center;">
+            <td style="text-align: center;">上周<br />
+            	{{'('+' '+data.area_week_time1}}-{{data.area_week_time2+' '+')'}}
+            </td>
+            <td style="text-align: center;">{{v_fist}} 	 {{v_fist_num/all_city_active_user*100|number:2}}%</td>
+            <td style="text-align: center;">{{v_second}} {{v_second_num/all_city_active_user*100|number:2}}%</td>
+            <td style="text-align: center;">{{v_third}}  {{v_third_num/all_city_active_user*100|number:2}}%</td>
+            <td style="text-align: center;">{{v_fouth}}  {{v_fouth_num/all_city_active_user*100|number:2}}%</td>
+            <td style="text-align: center;">{{v_fifth}}  {{all_city_active_user*100|number:2}}%</td>
+            <td style="text-align: center;">{{v_sixth}}  {{all_city_active_user*100|number:2}}%</td>
+        </tr>
+        {{z}}
+        <tr>
+            <td style="text-align: center;">上月
+            <br />
+            	{{'('+' '+data.area_month_time2}}-{{data.area_month_time1+' '+')'}}
+            </td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+            <td style="text-align: center;">-</td>
+        </tr>
+    </table>
+</div>

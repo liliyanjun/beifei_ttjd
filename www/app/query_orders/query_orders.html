@@ -1,0 +1,72 @@
+<div class="app-container">
+    <br>
+    <form ng-submit="" class="formly-inline pull-right" style="line-height: 64px;">
+        <div class="box btnbox">
+        <span style="line-height: 64px;">生成订单时间</span>
+        <button ng-click="query_btn(1)" class="btn btn-primary "  style="background:#122b40;">全部</button>
+        <button ng-click="query_btn(2)" class="btn btn-primary">今日</button>
+        <button ng-click="query_btn(3)" class="btn btn-primary">昨日</button>
+        <button ng-click="query_btn(4)" class="btn btn-primary">过去7天</button>
+        <button ng-click="query_btn(5)" class="btn btn-primary">过去30天</button>
+        <button ng-click="query_btn(6)" class="btn btn-primary">过去60天</button>
+        </div>
+        <script>
+            //  2016.9.19修改背景色
+            $(".btnbox>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".btnbox>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+            })
+        </script>
+
+        <formly-form model="query.data" fields="query_config" style="margin-left: 10px;">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>
+
+    </form>
+
+    <div class="clearfix"></div>
+    <br>
+
+    <span ng-if="total_count">订单汇总:{{total_count}}</span>
+    <span ng-if="!total_count">暂无内容</span>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th style="text-align: center;">下单时间</th>
+            <th style="text-align: center;">订单号</th>
+            <th style="text-align: center;">项目ID</th>
+            <th style="text-align: center">项目名称</th>
+            <th style="text-align: center;">下单用户</th>
+            <th style="text-align: center;">用户ID</th>
+            <th style="text-align: center;">手机号</th>
+            <th style="text-align: center;">订阅时长</th>
+            <th style="text-align: center;">订阅起始时间</th>
+            <th style="text-align: center;">订阅结束时间</th>
+            <th style="text-align: center;">支付方式</th>
+            <th style="text-align: center;">支付状态</th>
+            <th style="text-align: center;">索取发票</th>
+            <th style="text-align: center;">金额</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data_list">
+            <td style="text-align: center">{{item.create_time}}</td>
+            <td style="text-align: center;">{{item.order_num}}</td>
+            <td style="text-align: center">{{item.project}}</td>
+            <td style="text-align: center">{{item.project_name}}</td>
+            <td style="text-align: center">{{item.user_realname}}</td>
+            <td style="text-align: center">{{item.user_id}}</td>
+            <td style="text-align: center">{{item.user_tel}}</td>
+            <td style="text-align: center">{{item.active_num | pay_month}}</td>
+            <td style="text-align: center">{{item.active_start_time | split_time}}</td>
+            <td style="text-align: center">{{item.active_end_time | split_time}}</td>
+            <td style="text-align: center">{{item.pay_type | pay_type}}</td>
+            <td style="text-align: center">{{item.status | is_pay}}</td>
+            <td style="text-align: center" ng-class="{true: 'isblue', false: 'inactive'}[item.is_invoice]" ng-click="show_orderinfo(item)">{{item.is_invoice?'是':'否'}}</td>
+            <td style="text-align: center">{{item.real_price | pay_price}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <auto-page></auto-page>
+</div>

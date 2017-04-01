@@ -1,0 +1,59 @@
+<div class="app-container">
+    <br>
+    <form ng-submit="" class="formly-inline pull-right">
+        <formly-form model="query.data" fields="query_config" >
+        </formly-form>
+        <div class="box box_two">
+            <span>时间:</span>
+            <button ng-click="query_btn(1)" class="btn btn-primary " style="background:#122b40 ">昨日</button>
+        <button ng-click="query_btn(2)" class="btn btn-primary">过去7天</button>
+        <button ng-click="query_btn(3)" class="btn btn-primary">过去30天</button>
+        <button ng-click="query_btn(4)" class="btn btn-primary">过去60天</button>
+        </div>
+        <script>
+            //  2016.9.19修改背景色
+            $(".box_two>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".box_two>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+            })
+        </script>
+
+    </form>
+    <div class="clearfix"></div>
+    <br>
+
+    <span ng-if="data.all_active_user_count">用户汇总:{{data.all_active_user_count}}; &nbsp&nbsp&nbsp启动次数汇总:{{data.all_start_count}}</span>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <th>建道号</th>
+            <th style="text-align: center;">手机号码</th>
+            <th style="text-align: center;">归属地区(手机)</th>
+            <th>终端型号</th>
+            <th>软件版本</th>
+            <th>注册天数</th>
+            <!--<th style="text-align: center;">生日</th>-->
+            <th style="text-align: center;">启动次数</th>
+            <th style="text-align: center;">使用时长</th>
+            <th>详细信息</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data.result">
+            <td style="width: 200px;word-break: break-all">{{item.realname}}</td>
+            <td>-</td>
+            <td style="text-align: center;">{{item.tel}}</td>
+            <td style="text-align: center;">{{item.tel_province}} {{item.tel_city}}</td>
+            <td>-</td>
+            <td style="text-align: center;">-</td>
+            <td>-</td>
+            <td style="text-align: center;">{{item.start_count}}</td>   
+            <td>{{item.create_days}}</td>                   
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-success" ng-click="show_projectinfo(item)">查看</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

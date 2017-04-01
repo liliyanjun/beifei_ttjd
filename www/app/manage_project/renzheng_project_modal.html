@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()"><span
+            aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">订阅</h3>
+</div>
+<div class="modal-body">
+    <div class="well">
+        <div>
+            <label>账户状态:</label>
+            <span ng-if="!result.project.is_renzheng && result.project.enable_days_status==0">试用</span>
+            <span ng-if="result.project.is_renzheng && result.project.enable_days_status==0">订阅</span>
+            <span ng-if="!result.project.is_renzheng && result.project.enable_days_status==2">试用到期</span>
+            <span ng-if="result.project.is_renzheng && result.project.enable_days_status==2">订阅到期</span>
+            <!--<button class="btn btn-sm btn-success" ng-if="result.is_renzheng">取消</button>-->
+        </div>
+        <form ng-submit="">
+            <formly-form model="renzheng.data" fields="renzheng_config">
+            </formly-form>
+        </form>
+    </div>
+    <table class="table table-bordered">
+        <tr>
+            <td>操作人</td>
+            <td>操作时间</td>
+            <td>内容</td>
+            <td>支付方式</td>
+            <td>备注</td>
+        </tr>
+        <tr ng-repeat="obj in result.rr_result">
+            <td>{{obj.user_realname}}</td>
+            <td>{{obj.create_time}}</td>
+            <td>{{obj.content}}</td>
+            <td>{{obj.pay_type | pay_type}}</td>
+            <td>{{obj.remark}}</td>
+        </tr>
+    </table>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="ren_zheng()">确定</button>
+    <button type="button" class="btn btn-default" ng-click="close()">关闭</button>
+</div>

@@ -1,0 +1,72 @@
+<div class="app-container">
+    <br>
+    <div class="formly-inline">
+        <formly-form model="query.data" fields="query_config">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="run_query()">查询</button>
+    </div>
+    <br>
+    <div ng-if="result">
+        <div class="container-fluid">
+            <div>基本信息</div>
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">项目ID:{{result.id}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">项目人数:{{result.members_count}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">工程名称:{{result.name}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">工程地点:{{result.address_name}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">超级管理员:{{result.manager_name}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">联系电话:{{result.manager_tel}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">渠道代码:{{result.channel}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">项目人数:{{result.members_count}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">总工期:{{result.days}}天</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">建筑面积:{{result.jzmj}}㎡</div>
+                    <div class="col-xs-4" style="line-height: 36px;">合同造价:{{result.htzj}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">开工日期:{{result.kg_date}}</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">施工企业:{{result.sgdw}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div>订阅信息</div>
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">账户状态:{{result.is_renzheng?"订阅":"试用"}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">账户空间:{{result.zhang_hu_kong_jian_ht}}人</div>
+                    <div class="col-xs-4" style="line-height: 36px;">账户容量:{{result.capacity}}G</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">起始时间:{{result.use_start_date}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">截止时间:{{result.use_end_date}}</div>
+                    <div class="col-xs-4" style="line-height: 36px;">
+                        <button class="btn btn-sm btn-warning" ng-click="renzheng_project(result)">订阅</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div>状态信息</div>
+            <div class="well">
+                <div class="row">
+                    <div class="col-xs-4" style="line-height: 36px;">项目状态:
+                        <span ng-if="result.status==0">正常</span>
+                        <span ng-if="result.status==3">解散</span>
+                    </div>
+                    <div class="col-xs-4" style="line-height: 36px;">
+                        <button class="btn btn-sm btn-warning" ng-if="result.status==0" ng-click="delete_project(result)">解散</button>
+                        <button class="btn btn-sm btn-warning" ng-if="result.status==3" ng-click="recover_project(result)">恢复</button>
+                        <button class="btn btn-sm btn-warning" ng-click="log_project(result)">查看日志</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

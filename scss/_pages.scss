@@ -1,0 +1,15 @@
+.auto-page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: -20px;
+  .form-control {
+    min-width: 100px;
+  }
+  .left {
+    width: 259px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    line-height: 32px;
+  }
+}

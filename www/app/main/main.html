@@ -1,0 +1,70 @@
+<div class="main-container">
+    <div class="main-header" id="dt-header" style="position: relative;-webkit-app-region: drag;">
+        &nbsp;&nbsp;
+        <span class="main-head-item title">
+          <img src="images/main/logo.png" alt="">
+          <span class="writes"></span>
+           <span class="text">数据管理中心</span>
+            <span class="banbenhao">版本：V1.1</span>
+        </span>
+        <div class="right-container">
+            <span class="show-hand" popover-placement="auto"
+                  popover-append-to-body="true"
+                  uib-popover-template="'app/main/top_user_popover.html'"
+                  popover-trigger="always">
+                <span class="main-head-item">
+                <img class="header-img" ng-src="{{my_user_info.icon_url}}">
+            </span>
+            <span
+
+                    class="main-head-item">
+
+                {{my_user_info.realname}}
+            </span>
+            </span>
+
+            <span class="main-head-item show-hand" ng-click="logout()">
+            <img src="images/main/close.png" alt="" style="padding: 0px 15px">退出</span>
+        </div>
+    </div>
+    <div class="main-content-container"><!--内容部分-->
+        <div class="main-sidebar"><!--侧边栏-->
+            <div class="sidebar-menu">
+                <uib-accordion close-others="false">
+                    <div ng-repeat="menu in menus">
+                        <uib-accordion-group ng-if="menu.sub_menus && menu.sub_menus.length>0"
+                                             heading="{{menu.title}}" is-open="menu.is_open"  hidefocus="true">
+                            <uib-accordion-heading hidefocus="true">
+                                <!--<i class="iconfont">{{menu.icon}}</i><span class="iconfont">&#xe9bd;</span>-->
+                                <i class="glyphicon {{menu.icon}}"></i>
+                                {{menu.title}}
+                            </uib-accordion-heading>
+                            <div class="menu-item" ui-sref-active="active" ui-state="sub_menu.state"
+                                 ng-repeat="sub_menu in menu.sub_menus">
+                                <!--<i class="glyphicon {{sub_menu.icon}}"></i>-->
+                                {{sub_menu.title}}
+                            </div>
+                        </uib-accordion-group>
+                        <div class="menu-item" ui-sref-active="active" ui-state="menu.state"
+                             ng-if="!menu.sub_menus || menu.sub_menus.length==0">
+                            <i class="glyphicon {{menu.icon}}"></i>{{menu.title}}
+                        </div>
+                    </div>
+
+
+                </uib-accordion>
+
+
+            </div>
+            <div class="sidebar-bottom">
+
+            </div>
+        </div>
+        <div class="main-view-content" ui-view>
+
+        </div>
+
+    </div>
+    <!--侧边栏结束-->
+
+</div>

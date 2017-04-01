@@ -1,0 +1,10 @@
+<span class="input-group">
+    <input ng-click="options.templateOptions.open=true" autocomplete="off" type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd"
+           ng-model="dateModel.dateValue"
+           is-open="options.templateOptions.open"
+           placeholder="{{options.templateOptions.placeholder}}" ng-required="options.templateOptions.required"
+           close-text="关闭" clear-text="清空" current-text="今天"/>
+    <span ng-click="options.templateOptions.open=true" class="input-group-addon">
+        <i class="glyphicon glyphicon-calendar"></i>
+    </span>
+</span>

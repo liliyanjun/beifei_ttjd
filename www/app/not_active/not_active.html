@@ -1,0 +1,60 @@
+<div class="app-container">
+    <br>
+    <form ng-submit="" class="formly-inline pull-right" style="line-height: 64px;">
+    	<div class="font-title">未激活项目</div>
+        <script>
+            $(".btnbox>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".btnbox>.btn").css({background:"#337ab7"}).eq(index-1).css({background:"#122b40"})
+            })
+        </script>
+
+        <formly-form model="query.data" fields="query_config" style="margin-left: 10px;">
+        </formly-form>
+        <button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>
+
+    </form>
+    <div class="clearfix"></div>
+    <br>
+
+    <span ng-if="data.all_active_user_count">用户汇总:{{data.all_active_user_count}}; &nbsp&nbsp&nbsp启动次数汇总:{{data.all_start_count}}</span>
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+            <th>用户名</th>
+            <!--<th style="text-align: center;">用户ID号</th>-->
+            <th style="text-align: center;">手机号码</th>
+            <th style="text-align: center;">归属地区(手机)</th>
+            <!--<th style="text-align: center;">性别</th>-->
+            <th>邀请时间</th>
+            <th>邀请人</th>
+            <!--<th style="text-align: center;">生日</th>-->
+            <th style="text-align: center;">建道号</th>
+            <th style="text-align: center;">邀请组织</th>
+            <th>组织ID</th>
+            <th>组织地点</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <!--<td style="width: 200px;word-break: break-all">{{item.realname}}</td>
+            <td style="text-align: center;">{{item.tel}}</td>
+            <td style="text-align: center;">{{item.tel_province}} {{item.tel_city}}</td>
+            <td>-</td>
+            <td style="text-align: center;">{{item.address_name}}</td>
+            <td style="text-align: center;">{{item.create_time}}</td>
+            <td>{{item.create_days}}</td>
+            <td>{{item.start_count}}</td>-->
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>            
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+            <td>-</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,117 @@
+<div class="app-container">
+    <br>
+    <form ng-submit="" class="formly-inline pull-right">
+        <!--<span style="float: left; line-height: 64px;padding-right: 12px;">创建时间:</span>-->
+        <script>
+            //  2016.9.19修改背景色
+            $(".btnbox>.btn").mousedown(function () {
+                index=$(this).index();
+                $(".btnbox>.btn").css({background:"#337ab7"}).eq(index).css({background:"#122b40"})
+            })
+        </script>
+        <formly-form model="query.data" fields="query_config" style="line-height: 64px;margin-left: 12px;"></formly-form>
+        <button class="btn btn-primary" ng-click="query_btn(0)">搜索</button>
+        
+        <br>
+        <br>
+    </form>
+    <script>
+//    2016.9.19修改按钮颜色
+$(".btn_first").mousedown(function () {
+    $(".btn_first").css({background:"#122b40"});
+    $(".one_btn>.btn").css({background:"#337ab7"});
+    $(".two_btn>.btn").css({background:"#337ab7"});
+    $(".three_btn").css({background:"#337ab7"})
+})
+$(".one_btn>.btn") .mousedown(function () {
+    index=$(this).index();
+    $(".btn_first").css({background:"#337ab7"})
+    $(".two_btn>.btn").css({background:"#337ab7"});
+    $(".three_btn").css({background:"#337ab7"})
+    $(".one_btn>.btn").css({background:"#337ab7"}).eq(index).css({background:"#122b40"})
+})
+$(".two_btn>.btn") .mousedown(function () {
+    index=$(this).index();
+    $(".btn_first").css({background:"#337ab7"})
+    $(".one_btn>.btn").css({background:"#337ab7"});
+    $(".three_btn").css({background:"#337ab7"})
+    $(".two_btn>.btn").css({background:"#337ab7"}).eq(index).css({background:"#122b40"})
+})
+$(".three_btn").mousedown(function () {
+    $(".three_btn").css({background:"#122b40"});
+    $(".one_btn>.btn").css({background:"#337ab7"});
+    $(".two_btn>.btn").css({background:"#337ab7"});
+    $(".btn_first").css({background:"#337ab7"})
+})
+    </script>
+
+    <div class="clearfix"></div>
+    <span ng-if="total_count">小计:{{total_count}}</span>
+    <!--<span ng-if="!total_count">暂无内容</span>-->
+    <table class="table table-bordered table-striped">
+        <thead>
+        <tr>
+        	<th>注册编码</th>
+            <th style="text-align: center;">注册时间</th>
+            <th>项目名称</th>
+            <th style="text-align: center;">项目ID</th>
+            <th>项目地点</th>
+            <th style="text-align: center;">施工企业</th>
+            <th>施工团队</th>
+            <th>团队成员</th>
+            <th style="text-align: center;">超级管理员</th>
+            <th>建道号</th>
+            <th style="text-align: center;">手机号码</th>
+            <th style="text-align: center;">邀请码</th>
+            <th style="text-align: center;">帐户属性</th>
+            <th style="text-align: center;">账户状态</th>
+            <th style="text-align: center;">操作日志</th>
+            <th style="text-align: center;">项目详情</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in data_list">
+        	<td>-</td>
+            <td style="text-align: center;">{{item.create_time}}</td>
+            <td>{{item.name}}</td>
+            <td style="text-align: center;">{{item.id}}</td>          
+            <td style="text-align: center;">{{item.address_name}}</td>
+            <td style="width: 150px;word-break: break-all;">-</td>
+            <td>-</td>
+            <td ng-click="show_project_member(item)" style="color:blue;">{{item.members_count}}</td>
+            <td style="width: 150px;word-break: break-all;">{{item.manager_name}}</td>
+            <td>-</td>
+            <td style="text-align: center;">{{item.manager_tel}}</td>
+            <td>{{item.channel}}</td>
+            <td>-</td>
+            <!--<td>{{item.}}</td>-->
+            <td style="text-align: center;">
+                <span ng-if="item.status==3" class="project-state-del">解散</span>
+                <span ng-if="item.status==0 && !item.is_renzheng && (item.enable_days_status==0 || item.enable_days_status==1)" class="project-rezheng-try">试用</span>
+                <span ng-if="item.status==0 &&item.is_renzheng && (item.enable_days_status==0 || item.enable_days_status==1)" class="project-rezheng-renzheng">订阅</span>
+                <span ng-if="item.status==0 &&!item.is_renzheng && item.enable_days_status==2" class="project-rezheng-warning">试用到期</span>
+                <span ng-if="item.status==0 &&item.is_renzheng && item.enable_days_status==2" class="project-rezheng-timeout">订阅到期</span>
+            </td>
+            <td>-</td>
+            
+            <td style="text-align: center;">
+                <button type="button" class="btn btn-success" ng-click="show_projectinfo(item)">查看</button>
+            </td>
+            
+            <!--<td>-->
+                <!--<span ng-if="item.status==0" class="project-state-normal">正常</span>-->
+                <!---->
+            <!--</td>-->
+
+            <!--<td style="width: 200px;word-break: break-all;">-->
+                <!--<span class="btn btn-link" ng-click="renzheng_project(item)">认证</span>-->
+                <!--<span class="btn btn-link" ng-click="log_project(item)">日志</span>-->
+                <!--&lt;!&ndash;<span class="btn btn-link">统计</span>&ndash;&gt;-->
+                <!--<span class="btn btn-link" ng-if="item.status==3" ng-click="recover_project(item)">恢复</span>-->
+            <!--</td>-->
+
+        </tr>
+        </tbody>
+    </table>
+    <auto-page></auto-page>
+</div>

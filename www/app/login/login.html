@@ -1,0 +1,25 @@
+<style type="text/css">
+    body {
+        background: #F5F5F5;
+    }
+</style>
+<div class="login-form">
+    <div class="sg">
+        <div class="top">
+            <h1>天天建道数据管理中心</h1>
+        </div>
+        <form class="form-area" ng-submit="login()">
+            <div class="group">
+                <input type="text" class="form-control" autocomplete="off" placeholder="手机号"
+                       ng-model="login_info.username">
+                <i class="fa fa-user"></i>
+            </div>
+            <div class="group">
+                <input type="text" onfocus="this.type='password'" class="form-control" autocomplete="off"
+                       placeholder="密码" ng-model="login_info.password">
+                <i class="fa fa-key"></i>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">登录</button>
+        </form>
+    </div>
+</div>

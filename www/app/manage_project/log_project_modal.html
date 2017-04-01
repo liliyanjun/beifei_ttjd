@@ -1,0 +1,35 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()"><span
+            aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">日志信息</h3>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <div>基本信息</div>
+        <div>
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>操作时间</th>
+                    <th>记录内容</th>
+                    <th>用户名称</th>
+                    <th>接口名称</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in loglist">
+                    <td>{{item.create_time}}</td>
+                    <td>{{item.content}}</td>
+                    <td>{{item.user_name}}</td>
+                    <td style="word-break: break-all">{{item.api_name}}</td>
+                </tr>
+                </tbody>
+            </table>
+            <auto-page></auto-page>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="close()">确定</button>
+</div>

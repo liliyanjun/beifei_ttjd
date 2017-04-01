@@ -1,0 +1,66 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="close()"><span
+            aria-hidden="true">&times;</span></button>
+    <h3 class="modal-title">项目信息</h3>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <div>基本信息</div>
+        <div class="well">
+            <div class="row">
+                <div class="col-xs-6">工程地点:{{projectinfo.address_name}}</div>
+                <div class="col-xs-6">总工期:{{projectinfo.days}}天</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">渠道代码:{{projectinfo.channel}}</div>
+                <div class="col-xs-6">建筑面积:{{projectinfo.jzmj}}㎡</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">项目经理:{{projectinfo.xmjl}}</div>
+                <div class="col-xs-6">合同造价:{{projectinfo.htzj}}元</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">施工企业:{{projectinfo.sgdw}}</div>
+                <div class="col-xs-6">开工日期:{{projectinfo.kg_date}}</div>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div>认证信息</div>
+        <div class="well">
+            <div class="row">
+                <div class="col-xs-6">账户状态:
+                    <span ng-if="!projectinfo.is_renzheng && (projectinfo.enable_days_status==0 || projectinfo.enable_days_status==1)">试用</span>
+                    <span ng-if="projectinfo.is_renzheng && (projectinfo.enable_days_status==0 || projectinfo.enable_days_status==1)">订阅</span>
+                    <span ng-if="!projectinfo.is_renzheng && projectinfo.enable_days_status==2">试用到期</span>
+                    <span ng-if="projectinfo.is_renzheng && projectinfo.enable_days_status==2">订阅到期</span>
+                </div>
+                <div class="col-xs-6">账户空间:{{projectinfo.zhang_hu_kong_jian_ht}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">项目成员数量:{{projectinfo.members_count}}</div>
+                <div class="col-xs-6">可用天数:{{projectinfo.ke_yong_tian_shu}}</div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">起止时间:{{projectinfo.start_and_end}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div>成员信息</div>
+        <div class="well row">
+            <div class="col-xs-4" ng-repeat="p in projectinfo.persons">
+                <div class="well">
+                    <div class="row">姓名:{{p.name}}</div>
+                    <div class="row">岗位:{{p.title}}</div>
+                    <div class="row">电话:{{p.tel}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" ng-click="close()">确定</button>
+</div>

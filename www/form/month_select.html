@@ -1,0 +1,9 @@
+<div class="form-group">
+
+    <select class="form-control" style="width:127px;min-width: 127px;display: inline-block" ng-model="monthModel.year"
+            ng-options="i as i for i in month_select_year">
+    </select>
+    <select ng-if="monthModel.year" class="form-control" style="width:80px;min-width: 80px;display: inline-block"
+            ng-model="monthModel.month" ng-options="m as m for m in month_select_month">
+    </select>
+</div>

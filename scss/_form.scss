@@ -1,0 +1,60 @@
+textarea {
+  resize: none;
+}
+
+.radio-group {
+  div {
+    display: inline-block;
+    padding-left: 6px;
+  }
+}
+
+.combox-container {
+  position: relative;
+  .combox-container-addon {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+.formly-inline {
+  @extend .form-inline;
+  .form-control {
+    min-width: 122px;
+    height: 32px;
+    padding: 4px 12px;
+  }
+  .formly {
+    display: inline-block;
+  }
+  .formly-field {
+    display: inline-block;
+    padding-right: 18px;
+  }
+  .ui-select-bootstrap {
+    display: inline-block;
+  }
+  .ui-select-no-choice {
+    display: none;
+  }
+  .ui-select-group {
+    display: inline-block;
+  }
+}
+
+.ui-select-group {
+  display: flex;
+  flex-direction: row;
+  .ui-select-bootstrap {
+    flex-grow: 1;
+  }
+  button {
+    margin-left: 6px;
+  }
+}
+

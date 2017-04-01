@@ -1,0 +1,142 @@
+<div class="container">
+    <br>
+    <br>
+    <div class="font-title">注册概况</div>
+    <br />
+    <table class="table table-bordered text-center">
+        <tr>
+            <td></td>
+            <td style="text-align: center">新增注册项目</td>
+            <td style="text-align: center">累计注册项目</td>
+            <td style="text-align: center">累计非常项目</td>
+            <td style="text-align: center">累计正常项目</td>
+            <td style="text-align: center">新增订阅项目</td>
+            <td style="text-align: center">累计订阅项目</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">今日<br />
+            {{j_day}}
+            </td>
+            <td style="text-align: center">{{data.today_new_project_count}}</td>
+            <td style="text-align: center">{{data.all_project_count}}</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">{{data.all_project_normal_count}}</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">{{data.all_project_renzheng_count}}</td>
+        </tr>
+        <tr>
+           <td style="text-align: center;">昨日<br />
+            {{tomorrow}}
+            </td>
+            <td style="text-align: center">{{data.yesterday_new_project_count}}</td>
+            <td style="text-align: center">{{data.yesterday_all_project_count}}</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">{{data.all_project_normal_count}}</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">{{data.all_project_renzheng_count}}</td>
+        </tr>   
+    </table>
+    <br />
+    <div class="font-title">活跃概况</div>
+    <br>
+    <table class="table table-bordered text-center">
+        <tr>
+        	<td style="text-align: center"></td>
+            <td style="text-align: center">活跃项目</td>
+            <td style="text-align: center">活跃率</td>
+            <td style="text-align: center">活跃试用项目</td>
+            <td style="text-align: center">活跃率</td>
+            <td style="text-align: center">活跃订阅项目</td>
+            <td style="text-align: center">活跃率</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">昨日<br />
+            {{tomorrow}}
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+        <tr id="monitor3" style="text-align: center;">
+            <td style="text-align: center;">上周
+            	<br />
+            	<span></span>
+            	<em>-</em>
+            	<span></span>
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+        <tr>
+           <td style="text-align: center;">上月
+            	<br />
+            	{{l_m}}
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+    </table>
+    <br />
+    <div class="font-title">活跃概况</div>
+    <br>
+    <table class="table table-bordered text-center">
+        <tr>
+        	<td></td>
+            <td style="text-align: center">第一名</td>
+            <td style="text-align: center">第二名</td>
+            <td style="text-align: center">第三名</td>
+            <td style="text-align: center">第四名</td>
+            <td style="text-align: center">第五名</td>
+            <td style="text-align: center">第六名</td>
+        </tr>
+        <tr>
+            <td style="text-align: center;">昨日<br />
+            {{tomorrow}}
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+        <tr id="monitor4" style="text-align: center;">
+            <td style="text-align: center;">上周
+            	<br />
+            	<span></span>
+            	<em>-</em>
+            	<span></span>
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            
+        </tr>
+        <tr>
+           <td style="text-align: center;">上月
+            	<br />
+            	{{l_m}}
+            </td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+            <td style="text-align: center">-</td>
+        </tr>
+    </table>
+</div>
